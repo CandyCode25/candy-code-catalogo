@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Candy Code - Menú</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #FDF7F4;
+            color: #4A4A4A;
+        }
+        .brand-text {
+            color: #4A4A4A;
+        }
+        .slogan-text {
+            color: #7d7d7d;
+        }
+        .menu-choice-card {
+            background-color: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        .menu-choice-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        .section-title {
+            color: #8B6B59;
+            border-bottom: 2px solid #EADCD1;
+        }
+
+        .hidden-section {
+            display: none;
+        }
+
+        /* Colores de las tarjetas de Código */
+        .card-morado {
+            background-color: #d9a2f2; /* Morado pastel */
+        }
+        .card-azul {
+            background-color: #a2d9f2; /* Azul pastel */
+        }
+        .card-verde {
+            background-color: #a2f2a2; /* Verde pastel */
+        }
+        .card-rosa {
+            background-color: #F8B4C4; /* Rosa pastel */
+        }
+        .card-amarillo {
+            background-color: #FFDDA9; /* Amarillo pastel */
+        }
+        .card-morado .category-title {
+            color: #5d1a7d;
+        }
+        .card-azul .category-title {
+            color: #1a5c7d;
+        }
+        .card-verde .category-title {
+            color: #1a7d1a;
+        }
+        .card-rosa .category-title {
+            color: #8B6B59;
+        }
+        .card-amarillo .category-title {
+            color: #d68f29;
+        }
+
+        /* Estilos para los elementos seleccionables */
+        .selectable-item {
+            cursor: pointer;
+            user-select: none;
+            transition: background-color 0.2s ease;
+            padding: 8px 12px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+        .selectable-item:hover {
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+        .selectable-item.selected {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+        .message-box {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #ffcccc;
+            color: #cc0000;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            z-index: 1000;
+            display: none;
+        }
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+        .close-button {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        /* Mantiene el botón de resumen en la esquina inferior izquierda */
+        #fixed-summary-button-container {
+            bottom: 24px;
+            left: 24px;
+        }
+        .whatsapp-button {
+            background-color: #25D366; /* Color de WhatsApp */
+            color: white;
+        }
+        .whatsapp-button:hover {
+            background-color: #128C7E;
+        }
+    </style>
+</head>
+<body class="antialiased text-gray-700">
+
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
+
+        <!-- Welcome Section -->
+        <section id="welcome-section" class="text-center mb-16">
+            <div class="flex flex-col items-center gap-6 mb-6">
+                <img src="https://placehold.co/150x150/A9D9D9/FFFFFF?text=CandyCode" alt="Logo Candy Code" class="rounded-full shadow-lg">
+                <h1 class="text-5xl md:text-6xl font-bold brand-text tracking-tight">Candy Code</h1>
+            </div>
+            <p class="text-xl md:text-2xl slogan-text max-w-2xl mx-auto">La fórmula perfecta para tu mesa de dulces. Por favor, selecciona el tipo de menú que te interesa.</p>
+        </section>
+
+        <!-- Menu Choice Section: SOLO DULCES Y BOTANAS -->
+        <section id="menu-choice-section" class="grid md:grid-cols-2 gap-8 mb-16 max-w-3xl mx-auto">
+            <div class="menu-choice-card p-8 text-center" onclick="showSection('dulces')">
+                <img src="https://placehold.co/200x200/F8B4C4/FFFFFF?text=Mesa+Dulces" alt="Mesa de Dulces" class="mx-auto mb-4 rounded-lg">
+                <h3 class="text-3xl font-bold category-title">Mesa de Dulces</h3>
+            </div>
+            <div class="menu-choice-card p-8 text-center" onclick="showSection('botanas')">
+                <img src="https://placehold.co/200x200/B7A2D9/FFFFFF?text=Mesa+Botanas" alt="Mesa de Botanas" class="mx-auto mb-4 rounded-lg">
+                <h3 class="text-3xl font-bold category-title">Mesa de Botanas</h3>
+            </div>
+        </section>
+
+        <!-- Menu Sections (Hidden by default) -->
+        <section id="menu-dulces" class="hidden-section" data-menu-type="dulces">
+            <h2 class="text-4xl font-bold mb-8 section-title pb-4 text-center">Menú Mesa de Dulces</h2>
+            <div id="dulces-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Código Morado -->
+                <div class="menu-choice-card card-morado p-6 flex flex-col items-start" data-limit="10">
+                    <div class="flex justify-between w-full">
+                        <h3 class="category-title text-2xl font-semibold">Código Morado</h3>
+                        <span class="text-sm font-semibold text-gray-600 self-end"><span class="count">0</span> / 10</span>
+                    </div>
+                    <p class="text-lg font-bold mb-4 text-gray-700">(hasta 10 dulces)</p>
+                    <ul class="list-none w-full">
+                        <li class="selectable-item" onclick="toggleSelection(this)">Dragoncitos</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Burbu soda</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Banderilla bombon</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Aciduladito</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Tamborines</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Barquillo relleno de chocolate</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Pica fresa sandia</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Gelatinas mini</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Pastilla dulce</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Paleta Coronado</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Paleta Chupa Chups</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Bubalo</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Cachetada</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Nieve de bombon</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Gomita llave</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Cuchara dulce tamarindo</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Mazapan</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Mini Roko</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Paleta gomita mango-chile</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Winis clasico mini</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Devoralien</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Duvalin</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Mix mini (Bubulubu, Panditas, Kranky, Pecositas)</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Winis tubito</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Banderilla tamarindo</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Oblea Coronado</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Pulparindo</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Paleta tarro</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Mix paletas Vero</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Mini Nugs</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Tortuguitas</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Carlos V</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Jugo osito</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Mini Pelon</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Ricaleta</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Bolsa de cacahuate</li>
+                    </ul>
+                </div>
+
+                <!-- Código Azul -->
+                <div class="menu-choice-card card-azul p-6 flex flex-col items-start" data-limit="6">
+                    <div class="flex justify-between w-full">
+                        <h3 class="category-title text-2xl font-semibold">Código Azul</h3>
+                        <span class="text-sm font-semibold text-gray-600 self-end"><span class="count">0</span> / 6</span>
+                    </div>
+                    <p class="text-lg font-bold mb-4 text-gray-700">(hasta 6 dulces)</p>
+                    <ul class="list-none w-full">
+                        <li class="selectable-item" onclick="toggleSelection(this)">Gomita lombrices</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Gomitas ositos</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Gomitas manguitos enchilados</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Gomitas aros de durazno</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Gomita mangusano</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Gomitas cubitos</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Gomitas osos enchilados</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Huevito chocolate</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Luneta yogurt</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Totis palomitas</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Totis chile</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Vasito cacahuate japones</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Vasito cacahuate salado</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Bolsa de Chetos</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Bolsa de chicharrones</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Bolsa de churros palito</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Vasito garbanzo enchilado</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Totis limon</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Bolsa de palomitas</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Vasitos de fruta</li>
+                    </ul>
+                </div>
+
+                <!-- Código Verde (Anteriormente Rojo) -->
+                <div class="menu-choice-card card-verde p-6 flex flex-col items-start" data-limit="3">
+                    <div class="flex justify-between w-full">
+                        <h3 class="category-title text-2xl font-semibold">Código Verde</h3>
+                        <span class="text-sm font-semibold text-gray-600 self-end"><span class="count">0</span> / 3</span>
+                    </div>
+                    <p class="text-lg font-bold mb-4 text-gray-700">(hasta 3 dulces)</p>
+                    <ul class="list-none w-full">
+                        <li class="selectable-item" onclick="toggleSelection(this)">Pastelito Hershey's</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Crayon</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Paleta Payaso</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Lucas Muecas</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Lucas Panzon</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">ICE vaso</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Mini Chips</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Mini Takis</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Mini Sabritas MIX</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Mini Sabritas</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Menu Botanas Section -->
+        <section id="menu-botanas" class="hidden-section" data-menu-type="botanas">
+            <h2 class="text-4xl font-bold mb-8 section-title pb-4 text-center">Menú Mesa de Botanas</h2>
+            <div class="menu-choice-card card-rosa p-6" data-limit="8">
+                <div class="flex justify-between w-full items-center mb-4">
+                    <h3 class="category-title text-2xl font-semibold">Botanas</h3>
+                    <span class="text-sm font-semibold text-gray-600"><span class="count">0</span> / 8</span>
+                </div>
+                <ul class="list-none w-full columns-2">
+                    <li class="selectable-item" onclick="toggleSelection(this)">Gomita lombrices</li>
+                    <li class="selectable-item" onclick="toggleSelection(this)">Gomitas ositos</li>
+                    <li class="selectable-item" onclick="toggleSelection(this)">Gomitas manguitos enchilados</li>
+                    <li class="selectable-item" onclick="toggleSelection(this)">Gomitas aros de durazno</li>
+                    <li class="selectable-item" onclick="toggleSelection(this)">Gomita mangusano</li>
+                    <li class="selectable-item" onclick="toggleSelection(this)">Gomitas cubitos</li>
+                    <li class="selectable-item" onclick="toggleSelection(this)">Gomitas osos enchilados</li>
+                    <li class="selectable-item" onclick="toggleSelection(this)">Totis palomitas</li>
+                    <li class="selectable-item" onclick="toggleSelection(this)">Totis chile</li>
+                    <li class="selectable-item" onclick="toggleSelection(this)">Vasito cacahuate japones</li>
+                    <li class="selectable-item" onclick="toggleSelection(this)">Vasito cacahuate salado</li>
+                    <li class="selectable-item" onclick="toggleSelection(this)">Bolsa de Chetos de queso</li>
+                    <li class="selectable-item" onclick="toggleSelection(this)">Chicharron cuadrado</li>
+                    <li class="selectable-item" onclick="toggleSelection(this)">Bolsa de chicharrones</li>
+                    <li class="selectable-item" onclick="toggleSelection(this)">Bolsa de churros palito</li>
+                    <li class="selectable-item" onclick="toggleSelection(this)">Vasito de garbanzo enchilado</li>
+                    <li class="selectable-item" onclick="toggleSelection(this)">Totis limon</li>
+                    <li class="selectable-item" onclick="toggleSelection(this)">Bolsa de palomitas</li>
+                    <li class="selectable-item" onclick="toggleSelection(this)">Vasitos de fruta</li>
+                    <li class="selectable-item" onclick="toggleSelection(this)">Mini Chips</li>
+                    <li class="selectable-item" onclick="toggleSelection(this)">Mini Takis</li>
+                    <li class="selectable-item" onclick="toggleSelection(this)">Mini Sabritas</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Extras Section -->
+        <section id="extras-section" class="hidden-section mt-12">
+            <h2 class="text-4xl font-bold mb-8 section-title pb-4 text-center">Extras</h2>
+            <div id="extras-cards-container" class="flex flex-col md:flex-row md:justify-center gap-8">
+                <!-- Adicionales sin costo (antes Extras Incluidos) -->
+                <div id="extras-incluidos-card" class="menu-choice-card p-6 w-full md:w-1/2" data-limit="4">
+                    <div class="flex justify-between w-full items-center">
+                        <h3 class="font-bold text-2xl category-title">Adicionales sin costo</h3>
+                        <span class="text-sm font-semibold text-gray-600"><span class="count">0</span> / 4</span>
+                    </div>
+                    <p class="text-lg font-bold mb-4 text-gray-700">(hasta 4 adicionales)</p>
+                    <ul class="list-none w-full">
+                        <li class="selectable-item" onclick="toggleSelection(this)">Salsas</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Limones</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Cueritos</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Pico de gallo</li>
+                    </ul>
+                </div>
+                <div id="servicios-adicionales-card" class="menu-choice-card p-6 w-full md:w-1/2" data-limit="3">
+                    <div class="flex justify-between w-full">
+                        <h3 class="font-bold text-2xl category-title">Servicios Adicionales</h3>
+                        <span class="text-sm font-semibold text-gray-600 self-end"><span class="count">0</span> / 3</span>
+                    </div>
+                    <p class="text-lg font-bold mb-4 text-gray-700">(hasta 3 extras)</p>
+                    <ul class="list-none w-full">
+                        <li class="selectable-item" onclick="toggleSelection(this)">Shots de pepino loco</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Gomitas enchiladas preparadas</li>
+                        <li class="selectable-item" onclick="toggleSelection(this)">Etiquetas personalizadas (con nombre, fecha o temática de tu evento)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Message box for limit reached -->
+        <div id="limit-message" class="message-box text-center">
+            ¡Límite de selección alcanzado!
+        </div>
+
+        <!-- Summary Modal -->
+        <div id="summary-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-button" onclick="closeSummary()">&times;</span>
+                <h3 class="text-2xl font-bold mb-4 text-gray-700">Resumen del Pedido</h3>
+                <div id="summary-content"></div>
+                <div class="flex justify-between gap-4 mt-6">
+                    <button onclick="closeSummary()" class="w-1/2 px-6 py-3 bg-gray-200 text-gray-700 font-bold rounded-full hover:bg-gray-300 transition-colors">Cerrar</button>
+                    <button onclick="finalizeOrder()" class="w-1/2 px-6 py-3 bg-green-500 text-white font-bold rounded-full shadow-lg hover:bg-green-600 transition-colors">Finalizar Pedido</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Final Confirmation Modal -->
+        <div id="final-confirmation-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-button" onclick="closeFinalConfirmation()">&times;</span>
+                <h3 class="text-2xl font-bold mb-2 text-gray-700 text-center">¡Un último paso para endulzar tu evento!</h3>
+                <p class="text-center text-gray-600 mb-4">Para darte la atención más dulce y personalizada, por favor, déjanos tu nombre.</p>
+                <div id="final-confirmation-content" class="mb-4"></div>
+                
+                <div class="order-form-container mt-6">
+                    <label for="name-input" class="block text-lg font-semibold text-gray-700 mb-2">Tu nombre:</label>
+                    <input type="text" id="name-input" class="w-full p-3 rounded-lg border border-gray-300" placeholder="Solo tu nombre">
+                    <p class="text-red-500 text-sm mt-2 hidden" id="name-error">El nombre no puede estar vacío.</p>
+                </div>
+
+                <div class="flex flex-col gap-4 mt-6">
+                    <button onclick="confirmFinalize()" class="w-full px-6 py-3 bg-green-500 text-white font-bold rounded-full shadow-lg hover:bg-green-600 transition-colors">Confirmar y Finalizar</button>
+                    <button onclick="closeFinalConfirmation()" class="w-full px-6 py-3 bg-gray-200 text-gray-700 font-bold rounded-full hover:bg-gray-300 transition-colors">Continuar seleccionando</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Order Confirmation Screen -->
+        <section id="order-confirmation-screen" class="hidden-section text-center p-8 bg-white rounded-lg shadow-lg">
+            <h2 class="text-4xl font-bold mb-4 text-green-600">¡Selección Finalizada!</h2>
+            <p id="confirmation-message" class="text-lg text-gray-700 mb-6"></p>
+            <div class="py-6 px-12 bg-gray-100 rounded-lg inline-block">
+                <p id="order-code" class="text-5xl md:text-6xl font-extrabold tracking-widest text-amber-600"></p>
+            </div>
+            
+            <div id="order-summary-final" class="mt-8 text-left max-w-lg mx-auto">
+                <h3 class="text-2xl font-bold mb-4">Resumen de tu pedido</h3>
+                <div id="final-summary-content"></div>
+            </div>
+
+            <p class="text-md text-gray-700 mt-6 max-w-xl mx-auto">
+                Da clic en el botón de abajo para enviar automáticamente tu pedido y contactar a Candy Code.
+            </p>
+            
+            <!-- Botón de WhatsApp -->
+            <button id="whatsapp-send-button" class="mt-6 w-full md:w-auto px-8 py-4 whatsapp-button text-white font-bold rounded-full shadow-lg transition-colors flex items-center justify-center mx-auto" onclick="sendWhatsapp()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="mr-2">
+                    <path d="M12 0C5.373 0 0 5.373 0 12c0 2.062.531 4.02 1.54 5.76L.085 24l6.452-1.687A11.956 11.956 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zM17.47 15.65c-.088-.146-.356-.233-.746-.42a4.982 4.982 0 0 0-1.896-.54c-.389 0-.67.087-.872.434-.233.348-.389.54-.702.54-.313 0-.613-.087-.993-.348-.38-.262-.838-.642-1.608-1.396-.583-.563-1.041-1.258-1.168-1.503-.127-.245-.018-.38.088-.476.079-.087.167-.174.245-.262.079-.087.118-.174.176-.291.059-.116.029-.213-.01-.291-.04-.078-.356-.914-.492-1.23-.127-.313-.255-.262-.356-.262-.09.02-.199.02-.309.02-.11 0-.309.04-.476.223-.167.185-.632.617-.632 1.498 0 .882.642 1.637.746 1.773.103.136 1.258 1.905 3.033 2.686 1.774.78 1.774.702 2.09.654.31-.05.87-.35 1-.617.135-.291.135-.54.088-.617-.04-.078-.128-.118-.216-.166z"/>
+                </svg>
+                Enviar Pedido por WhatsApp
+            </button>
+            
+            <button onclick="goBack()" class="mt-4 px-8 py-3 bg-gray-200 text-gray-700 font-bold rounded-full hover:bg-gray-300 transition-colors">Realizar un nuevo pedido</button>
+        </section>
+
+
+        <!-- Fixed Summary Button -->
+        <div id="fixed-summary-button-container" class="hidden fixed bottom-4 left-4 z-10">
+            <button id="summary-button" class="px-6 py-3 bg-amber-600 text-white font-bold rounded-full shadow-lg hover:bg-amber-700 transition-colors" onclick="showSummary()">Ver Resumen</button>
+        </div>
+
+        <!-- Fixed Back Button -->
+        <div id="fixed-back-button-container" class="hidden fixed top-4 left-4 z-10">
+            <button class="px-6 py-3 bg-gray-200 text-gray-700 font-bold rounded-full hover:bg-gray-300 transition-colors" onclick="goBack()">Regresar</button>
+        </div>
+        
+        <!-- Footer -->
+        <footer class="text-center mt-24 pt-8 border-t border-gray-200">
+            <p class="text-gray-500">&copy; 2025 Candy Code. Todos los derechos reservados.</p>
+        </footer>
+    </div>
+
+    <script>
+        const welcomeSection = document.getElementById('welcome-section');
+        const menuChoiceSection = document.getElementById('menu-choice-section');
+        const menuDulcesSection = document.getElementById('menu-dulces');
+        const menuBotanasSection = document.getElementById('menu-botanas');
+        const extrasSection = document.getElementById('extras-section');
+        const fixedSummaryButtonContainer = document.getElementById('fixed-summary-button-container');
+        const fixedBackButtonContainer = document.getElementById('fixed-back-button-container');
+        const limitMessage = document.getElementById('limit-message');
+        const summaryModal = document.getElementById('summary-modal');
+        const summaryContent = document.getElementById('summary-content');
+        const finalConfirmationModal = document.getElementById('final-confirmation-modal');
+        const finalConfirmationContent = document.getElementById('final-confirmation-content');
+        const orderConfirmationScreen = document.getElementById('order-confirmation-screen');
+        const orderCodeElement = document.getElementById('order-code');
+        const nameInput = document.getElementById('name-input');
+        const nameError = document.getElementById('name-error');
+        const confirmationMessage = document.getElementById('confirmation-message');
+        const finalSummaryContent = document.getElementById('final-summary-content');
+        
+        const extrasIncluidosCard = document.getElementById('extras-incluidos-card');
+        const serviciosAdicionalesCard = document.getElementById('servicios-adicionales-card');
+
+        let activeMenuType = null;
+        let finalOrderCode = null;
+        let finalOrderName = null;
+
+        // Número de WhatsApp de destino
+        const WHATSAPP_NUMBER = '5214462579511';
+
+
+        function showSection(sectionName) {
+            welcomeSection.style.display = 'none';
+            menuChoiceSection.style.display = 'none';
+            fixedBackButtonContainer.style.display = 'block';
+            fixedSummaryButtonContainer.style.display = 'block';
+            extrasSection.style.display = 'block';
+            activeMenuType = sectionName;
+
+            menuDulcesSection.style.display = 'none';
+            menuBotanasSection.style.display = 'none';
+            orderConfirmationScreen.style.display = 'none';
+
+            if (sectionName === 'dulces') {
+                menuDulcesSection.style.display = 'block';
+                // En dulces, Adicionales sin costo no es visible, solo Servicios Adicionales
+                extrasIncluidosCard.style.display = 'none'; 
+                serviciosAdicionalesCard.style.display = 'block';
+            } else if (sectionName === 'botanas') {
+                menuBotanasSection.style.display = 'block';
+                // En botanas, ambos extras son visibles
+                extrasIncluidosCard.style.display = 'block'; 
+                serviciosAdicionalesCard.style.display = 'block';
+            }
+        }
+
+        function goBack() {
+            // Limpia las selecciones al regresar
+            document.querySelectorAll('.selectable-item.selected').forEach(item => {
+                item.classList.remove('selected');
+            });
+            document.querySelectorAll('.count').forEach(counter => {
+                counter.textContent = '0';
+            });
+            
+            activeMenuType = null;
+            finalOrderCode = null;
+            finalOrderName = null;
+            
+            welcomeSection.style.display = 'block';
+            menuChoiceSection.style.display = 'grid';
+            menuDulcesSection.style.display = 'none';
+            menuBotanasSection.style.display = 'none';
+            extrasSection.style.display = 'none';
+            orderConfirmationScreen.style.display = 'none';
+            fixedBackButtonContainer.style.display = 'none';
+            fixedSummaryButtonContainer.style.display = 'none';
+            extrasIncluidosCard.style.display = 'block'; // Asegura que esté visible en la selección inicial si fuera necesario
+        }
+
+        function toggleSelection(element) {
+            const parentCard = element.closest('.menu-choice-card');
+            if (!parentCard) return;
+
+            const parentMenuSection = element.closest('section[data-menu-type]');
+            const currentMenuType = parentMenuSection ? parentMenuSection.dataset.menuType : null;
+            
+            const isExtra = !currentMenuType;
+            
+            const limit = parseInt(parentCard.dataset.limit, 10);
+            const isSelected = element.classList.contains('selected');
+            
+            if (!isExtra && activeMenuType && activeMenuType !== currentMenuType && !isSelected) {
+                showMessage("Solo puedes seleccionar productos de un tipo de menú a la vez.");
+                return;
+            }
+
+            if (isSelected) {
+                element.classList.remove('selected');
+            } else {
+                if (limit && parentCard.querySelectorAll('.selectable-item.selected').length >= limit) {
+                    showMessage("¡Límite de selección alcanzado!");
+                    return;
+                }
+                element.classList.add('selected');
+            }
+            
+            updateCounter(parentCard);
+        }
+
+        function updateCounter(parentCard) {
+            const selectedItems = parentCard.querySelectorAll('.selectable-item.selected').length;
+            const counterSpan = parentCard.querySelector('.count');
+            if (counterSpan) {
+                counterSpan.textContent = selectedItems;
+            }
+        }
+        
+        function showMessage(message) {
+            limitMessage.textContent = message;
+            limitMessage.style.display = 'block';
+            setTimeout(() => {
+                limitMessage.style.display = 'none';
+            }, 2000);
+        }
+
+        function showSummary() {
+            let summaryHTML = '<ul>';
+            const selectedItems = document.querySelectorAll('.selectable-item.selected');
+            
+            if (selectedItems.length === 0) {
+                summaryHTML += '<li class="text-center text-gray-500">No has seleccionado ningún producto aún.</li>';
+            } else {
+                selectedItems.forEach(item => {
+                    summaryHTML += `<li>- ${item.textContent}</li>`;
+                });
+            }
+            summaryHTML += '</ul>';
+
+            summaryContent.innerHTML = summaryHTML;
+            summaryModal.style.display = 'flex';
+        }
+
+        function closeSummary() {
+            summaryModal.style.display = 'none';
+        }
+
+        function finalizeOrder() {
+            closeSummary();
+            showFinalConfirmation();
+        }
+
+        function showFinalConfirmation() {
+            let message = '';
+            
+            // Lógica de resumen de conteos para la modal de confirmación
+            if (activeMenuType === 'dulces') {
+                const moradoCard = document.querySelector('#menu-dulces .card-morado');
+                const azulCard = document.querySelector('#menu-dulces .card-azul');
+                const verdeCard = document.querySelector('#menu-dulces .card-verde');
+
+                const moradoCount = moradoCard.querySelectorAll('.selectable-item.selected').length;
+                const azulCount = azulCard.querySelectorAll('.selectable-item.selected').length;
+                const verdeCount = verdeCard.querySelectorAll('.selectable-item.selected').length;
+                
+                const moradoLimit = parseInt(moradoCard.dataset.limit, 10);
+                const azulLimit = parseInt(azulCard.dataset.limit, 10);
+                const verdeLimit = parseInt(verdeCard.dataset.limit, 10);
+
+                message = '<h3>Resumen de tu selección en la Mesa de Dulces:</h3>';
+                message += '<ul class="mt-4 mb-4 list-disc pl-5">';
+                message += `<li>Código Morado: **${moradoCount}** de ${moradoLimit} dulces.</li>`;
+                message += `<li>Código Azul: **${azulCount}** de ${azulLimit} dulces.</li>`;
+                message += `<li>Código Verde: **${verdeCount}** de ${verdeLimit} dulces.</li>`;
+                message += '</ul>';
+            } else if (activeMenuType === 'botanas') {
+                const botanasCard = document.querySelector('#menu-botanas .menu-choice-card');
+                const botanasCount = botanasCard.querySelectorAll('.selectable-item.selected').length;
+                const botanasLimit = parseInt(botanasCard.dataset.limit, 10);
+
+                message = '<h3>Resumen de tu selección en la Mesa de Botanas:</h3>';
+                message += `<p class="mt-4 mb-4">Has seleccionado **${botanasCount}** de ${botanasLimit} botanas.</p>`;
+            } 
+            
+            finalConfirmationContent.innerHTML = message;
+            finalConfirmationModal.style.display = 'flex';
+        }
+
+        function closeFinalConfirmation() {
+            finalConfirmationModal.style.display = 'none';
+        }
+
+        function generateOrderCode() {
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let result = '';
+            for (let i = 0; i < 5; i++) {
+                result += characters.charAt(Math.floor(Math.random() * characters.length));
+            }
+            return result;
+        }
+
+        function buildWhatsappMessage(name, code, selectedCategories) {
+            let message = `¡Hola Candy Code! 👋\n\nMi nombre es *${name}* y he finalizado mi selección de menú con el código: *${code}*.\n\n---`;
+
+            // Agrega el tipo de menú principal
+            if (activeMenuType) {
+                const menuTitle = activeMenuType === 'dulces' ? 'Mesa de Dulces' : 'Mesa de Botanas';
+                message += `\n\n*Menú Seleccionado:* ${menuTitle}`;
+            }
+
+            // Agrega las categorías y productos seleccionados
+            for (const category in selectedCategories) {
+                if (selectedCategories[category].length > 0) {
+                    message += `\n\n*${category}:*`;
+                    selectedCategories[category].forEach(item => {
+                        message += `\n- ${item}`;
+                    });
+                }
+            }
+            
+            message += `\n\n---\n*Código de Pedido: ${code}*`;
+            message += '\n\nPor favor, confirmen mi pedido. ¡Gracias!';
+            
+            return encodeURIComponent(message);
+        }
+
+        function confirmFinalize() {
+            const name = nameInput.value.trim();
+            if (name === "") {
+                nameError.style.display = 'block';
+                return;
+            }
+            nameError.style.display = 'none';
+            finalOrderName = name; // Guardar el nombre
+            
+            closeFinalConfirmation();
+
+            // Oculta las secciones de menú y los botones fijos
+            document.querySelectorAll('section').forEach(section => {
+                section.style.display = 'none';
+            });
+            fixedBackButtonContainer.style.display = 'none';
+            fixedSummaryButtonContainer.style.display = 'none';
+            
+            // Genera y guarda el código de orden
+            finalOrderCode = generateOrderCode();
+            orderCodeElement.textContent = finalOrderCode;
+            confirmationMessage.textContent = `En Candy Code agradecemos tu preferencia con nosotros, tu evento es el mas importante para nosotros por ello te pedimos dar click en el botón "Enviar Pedido por WhatsApp" para enviarnos tu selección y ponernos en contacto contigo.`;
+            
+            // Construir el resumen y el objeto de categorías para el WhatsApp
+            let finalSummaryHTML = '';
+            const allSelectedItems = document.querySelectorAll('.selectable-item.selected');
+            const categories = {}; // Objeto para almacenar categorías y productos
+            
+            // Llenar el objeto de categorías
+            allSelectedItems.forEach(item => {
+                const parentCard = item.closest('.menu-choice-card');
+                const categoryTitle = parentCard.querySelector('.category-title').textContent;
+                
+                if (!categories[categoryTitle]) {
+                    categories[categoryTitle] = [];
+                }
+                categories[categoryTitle].push(item.textContent);
+            });
+
+            // --- Construcción del HTML de Resumen Final (para la pantalla) ---
+            if (activeMenuType) {
+                const menuTitle = activeMenuType === 'dulces' ? 'Mesa de Dulces' : 'Mesa de Botanas';
+                finalSummaryHTML += `<p class="text-lg font-semibold mt-4">Tipo de menú: ${menuTitle}</p>`;
+            }
+            
+            for (const category in categories) {
+                finalSummaryHTML += `<h4 class="text-xl font-bold mt-4">${category}</h4>`;
+                finalSummaryHTML += '<ul class="list-disc pl-5 mt-2 text-gray-700">';
+                categories[category].forEach(item => {
+                    finalSummaryHTML += `<li>${item}</li>`;
+                });
+                finalSummaryHTML += '</ul>';
+            }
+
+            finalSummaryHTML += `<h4 class="text-xl font-bold mt-6">Código de Pedido:</h4>`;
+            finalSummaryHTML += `<p class="text-3xl font-extrabold text-amber-600">${finalOrderCode}</p>`;
+
+            finalSummaryContent.innerHTML = finalSummaryHTML;
+            
+            // Mostrar la pantalla de confirmación
+            orderConfirmationScreen.style.display = 'block';
+        }
+
+        function sendWhatsapp() {
+            if (!finalOrderCode || !finalOrderName) {
+                showMessage("Error: El pedido no se ha finalizado correctamente. Intenta de nuevo.");
+                return;
+            }
+
+            // Recopila los datos por última vez para el mensaje
+            const allSelectedItems = document.querySelectorAll('.selectable-item.selected');
+            const categories = {}; 
+
+            allSelectedItems.forEach(item => {
+                const parentCard = item.closest('.menu-choice-card');
+                const categoryTitle = parentCard.querySelector('.category-title').textContent;
+                
+                if (!categories[categoryTitle]) {
+                    categories[categoryTitle] = [];
+                }
+                categories[categoryTitle].push(item.textContent);
+            });
+            
+            // Genera el mensaje y abre WhatsApp
+            const whatsappMessage = buildWhatsappMessage(finalOrderName, finalOrderCode, categories);
+            const whatsappURL = `https://wa.me/${WHATSAPP_NUMBER}?text=${whatsappMessage}`;
+            window.open(whatsappURL, '_blank');
+        }
+    </script>
+
+</body>
+</html>
+
+
